@@ -6,5 +6,5 @@ A text based trivia game using the opentdb api
 ## Running
 
 ```
-python tdb.py
+python TrivialTrivia.py
 ```

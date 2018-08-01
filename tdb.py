@@ -4,9 +4,6 @@ import random
 from format import *
 from request import *
 
-#trivia_db_url = "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
-
-
 def PrintMultipleChoicesRandomly(ct, it):
     cc = it
     cc.append(ct)
@@ -19,7 +16,6 @@ def PrintMultipleChoicesRandomly(ct, it):
     print(cs)
     return (cc.index(ct)+1)
     
-
 def AskQuestion(q):
     print("Category: "+q["category"] +" Type: "+ types[str(q["type"])] +" Difficulty: "+ q["difficulty"])
     print("\n"+CS(q["question"])+"\n")
@@ -37,16 +33,12 @@ def AskQuestion(q):
         print("Incorrect! Correct answer is '"+CS(q["correct_answer"])+"'")
     return 
 
-
-
 def PromptChoice(dict, start="", si=1, end=""):
     for k, v in dict.items():
         start+= str(si) + ": " +str(v)+" "
         si+=1
     print(start)
     return int(raw_input(end))
-
-
 
 def FindBestValue(amnt, cat , df, tp, low=0, high=False):
     if high == False: high = amnt
@@ -80,7 +72,3 @@ def Setup():
         raw_input("press Enter to continue!")
         i+=1
     return 
-
-Setup()
-
-# add score
