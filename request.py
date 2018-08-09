@@ -17,18 +17,38 @@ def CreateURL(an, cg, df, tp):
     if (tp <= 2 and tp >= 1): base_url += "&type="+str(type_n[tp])
     return base_url
 
+#loads page and converts to dictionary
 def GetPageAsDictionary(url):
     page = urllib2.urlopen(url).read()
     return json.loads(page)
 
-def GetRequestResults(url, ep=False):
+#Loads and validates page for results and returns a dictionary of questions
+def GetRequestResults(url, print_error=False):
     page_dict = GetPageAsDictionary(url)
-    if (page_dict["results"] == []): 
-        if ep: print("Response Failed! Could not get a valid response.\n'"+url+"'")
+    if (page_dict["results"] == []):
+        if print_error: print("Response Failed! Could not get a valid response.\n'"+url+"'")
         return False
     return page_dict["results"]
 
-
-def CreatGetRequest(amnt, cat, df, tp):
+#Creates url and loads page as dictionary
+def CreateGetRequest(amnt, cat, df, tp):
     url = CreateURL(amnt, cat, df, tp)
     return GetRequestResults(url)
+
+#find request with most questions
+def FindBestValue(amnt, cat , df, tp, low=0, high=False):
+    if high == False: high = amnt #set highest result
+    med = low + (high-low)/2
+    if high == low or low == med or high == med: # return if best request found
+        return CreateGetRequest(low, cat, df, tp)
+    tst = CreateGetRequest(med, cat, df, tp) # get median request
+    if tst == False: return FindBestValue(amnt, cat, df, tp, low, med)# median too high, set median as high
+    else: return FindBestValue(amnt, cat, df, tp, med, high)# median was good, set as lowest
+
+#test request and return best result
+def FindBestRequest(amnt, cat, df, tp):
+    if amnt > 50: amnt = 50
+    rq = CreateGetRequest(amnt, cat, df, tp)
+    if rq == False: #Original request failed
+        return FindBestValue(amnt-1, cat, df, tp)
+    else : return rq

@@ -15,23 +15,32 @@ def PrintMultipleChoicesRandomly(ct, it):
         i+=1
     print(cs)
     return (cc.index(ct)+1)
-    
+
+#ask question and return result
 def AskQuestion(q):
+    # print question and properties
     print("Category: "+q["category"] +" Type: "+ types[str(q["type"])] +" Difficulty: "+ q["difficulty"])
     print("\n"+CS(q["question"])+"\n")
 
-    if (q["type"] == "multiple"): ca = PrintMultipleChoicesRandomly(q["correct_answer"], q["incorrect_answers"])
-    else: 
+    #print choices
+    if (q["type"] == "multiple"):
+        # multiple answer question
+        ca = PrintMultipleChoicesRandomly(q["correct_answer"], q["incorrect_answers"])
+    else:
+        # boolean question
         print("1: True 2: False")
         if (q["correct_answer"] == "True"): ca = 1
         else: ca = 2
-    
-    a= int(input("Enter a number: "))
-    if a== ca:
+
+    #prompt user for answer
+    a = int(input("Enter a number: "))
+    #validate answer
+    if a == ca:
         print("Correct!")
-    else: 
+        return True
+    else:
         print("Incorrect! Correct answer is '"+CS(q["correct_answer"])+"'")
-    return 
+        return False
 
 def PromptChoice(dict, start="", si=1, end=""):
     for k, v in dict.items():
@@ -39,23 +48,6 @@ def PromptChoice(dict, start="", si=1, end=""):
         si+=1
     print(start)
     return int(raw_input(end))
-
-def FindBestValue(amnt, cat , df, tp, low=0, high=False):
-    if high == False: high = amnt
-    med = low + (high-low)/2
-    if high == low or low == med or high == med: 
-        rq = CreatGetRequest(low, cat, df, tp)
-        return rq
-    tst = CreatGetRequest(med, cat, df, tp)
-    if tst == False: return FindBestValue(amnt, cat, df, tp, low, med)
-    else: return FindBestValue(amnt, cat, df, tp, med, high)
-    
-
-def FindBestRequest(amnt, cat, df, tp):
-    rq = CreatGetRequest(amnt, cat, df, tp)
-    if rq == False:
-        return FindBestValue(amnt, cat, df, tp)
-    else : return rq
 
 def Setup():
     amnt = int(input("How many questions?(max 50) "))
@@ -71,4 +63,4 @@ def Setup():
         AskQuestion(q)
         raw_input("press Enter to continue!")
         i+=1
-    return 
+    return
