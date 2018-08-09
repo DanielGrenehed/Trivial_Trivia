@@ -4,6 +4,10 @@ import random
 from format import *
 from opentdb import *
 
+if sys.version_info[0] == 3:
+    def raw_input(x): # define raw_input for python3
+        return input(x)
+
 def PrintMultipleChoicesRandomly(ct, it):
     cc = it
     cc.append(ct)
@@ -11,7 +15,7 @@ def PrintMultipleChoicesRandomly(ct, it):
     cs = ""
     i=1
     for c in cc:
-        cs += str(i)+": "+ CS(c) +" "
+        cs += str(i) + ": " + String_Formatting_Object.CreateFormattedString(c) + " "
         i+=1
     print(cs)
     return (cc.index(ct)+1)
@@ -20,7 +24,7 @@ def PrintMultipleChoicesRandomly(ct, it):
 def AskQuestion(q):
     # print question and properties
     print("Category: "+q["category"] +" Type: "+ types[str(q["type"])] +" Difficulty: "+ q["difficulty"])
-    print("\n"+CS(q["question"])+"\n")
+    print("\n" + String_Formatting_Object.CreateFormattedString(q["question"]) + "\n")
 
     #print choices
     if (q["type"] == "multiple"):
@@ -39,7 +43,7 @@ def AskQuestion(q):
         print("Correct!")
         return True
     else:
-        print("Incorrect! Correct answer is '"+CS(q["correct_answer"])+"'")
+        print("Incorrect! Correct answer is '" + String_Formatting_Object.CreateFormattedString(q["correct_answer"]) + "'")
         return False
 
 def PromptChoice(dict, start="", si=1, end=""):
@@ -48,19 +52,3 @@ def PromptChoice(dict, start="", si=1, end=""):
         si+=1
     print(start)
     return int(raw_input(end))
-
-def Setup():
-    amnt = int(input("How many questions?(max 50) "))
-    cat = PromptChoice(categories , "1: Any ", 2, "Choose catgory: ")+7
-    tp= PromptChoice(typen_n, "", 1, "Choose type: ")-1
-    df = PromptChoice(difficulties, "", 1, "Choose difficulty: ") -1
-    page_dict = FindBestRequest(amnt, cat, df, tp)
-    print("\nFound "+str(len(page_dict))+" questions!")
-
-    i = 1
-    for q in page_dict:
-        print("\n\nQuestion "+str(i)+"!")
-        AskQuestion(q)
-        raw_input("press Enter to continue!")
-        i+=1
-    return
