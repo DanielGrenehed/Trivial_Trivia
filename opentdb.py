@@ -32,8 +32,7 @@ def GetRequestResults(url, print_error=False):
 
 #Creates url and loads page as dictionary
 def CreateGetRequest(amnt, cat, df, tp):
-    url = CreateURL(amnt, cat, df, tp)
-    return GetRequestResults(url)
+    return GetRequestResults(CreateURL(amnt, cat, df, tp))
 
 #find request with most questions
 def FindBestValue(amnt, cat , df, tp, low=0, high=False):

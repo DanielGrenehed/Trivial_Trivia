@@ -2,7 +2,7 @@
 
 import random
 from format import *
-from request import *
+from opentdb import *
 
 def PrintMultipleChoicesRandomly(ct, it):
     cc = it
