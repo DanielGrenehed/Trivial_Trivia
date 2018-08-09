@@ -8,6 +8,9 @@ def Setup():
     tp= PromptChoice(typen_n, "", 1, "Choose type: ")-1
     df = PromptChoice(difficulties, "", 1, "Choose difficulty: ") -1
     page_dict = FindBestRequest(amnt, cat, df, tp)
+    if page_dict == False:
+        print("Could not find any questions of that type!")
+        return
     print("\nFound "+str(len(page_dict))+" questions!")
 
     i = 1

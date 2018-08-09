@@ -6,7 +6,9 @@ class String_Formatting_Object:
 
     replace_s = {"&quot;":'"', "&#039":"'", "&shy;":"-",
         "&aring;":u"å", "&auml;":u"ä", "&ouml;":u"ö", "&amp;":u"&",
-        u"';":"'", "&rdquo;":u'”', "&ldquo;":u'“', "&rsquo;":u"’", "&hellip;":u"..."}
+        u"';":"'", "&rdquo;":u'”', "&ldquo;":u'“', "&rsquo;":u"’",
+        "&hellip;":u"...", "&uuml;":u"ü", "&Ouml;":u"Ö", "&#039;":"'",
+        "&Phi;":u"Φ", "&epsilon;":u"ε"}
 
     def __init__(self, string):
         self.string = string
@@ -54,6 +56,9 @@ class String_Formatting_Object:
     def CreateFormattedString(string):
         obj = String_Formatting_Object(string)
         return obj.GetFormattedString()
+
+# Greek alphabet:
+# https://www.rapidtables.com/math/symbols/greek_alphabet.html
 
 """
 def PlaceAcute(s):

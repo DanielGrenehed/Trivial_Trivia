@@ -40,7 +40,9 @@ def CreateGetRequest(amnt, cat, df, tp):
 #find request with most questions
 def FindBestValue(amnt, cat , df, tp, low=0, high=False):
     if high == False: high = amnt #set highest result
-    med = low + (high-low)/2
+    med = int(low + (high-low)/2)
+    #print (str(low)+" "+str(med)+" "+str(high))
+    if high == 0 or med == 0: return False
     if high == low or low == med or high == med: # return if best request found
         return CreateGetRequest(low, cat, df, tp)
     tst = CreateGetRequest(med, cat, df, tp) # get median request
@@ -52,5 +54,5 @@ def FindBestRequest(amnt, cat, df, tp):
     if amnt > 50: amnt = 50
     rq = CreateGetRequest(amnt, cat, df, tp)
     if rq == False: #Original request failed
-        return FindBestValue(amnt-1, cat, df, tp)
+        return FindBestValue(amnt, cat, df, tp)
     else : return rq
