@@ -2,6 +2,14 @@
 
 from game import *
 
+def PromptChoice(dict, start="", si=1, end=""):
+    for k, v in dict.items():
+        start+= str(si) + ": " +str(v)+" "
+        si+=1
+    print(start)
+    return int(raw_input(end))
+
+
 def Setup():
     amnt = int(input("How many questions?(max 50) "))
     cat = PromptChoice(categories , "1: Any ", 2, "Choose catgory: ")+7
@@ -13,12 +21,15 @@ def Setup():
         return
     print("\nFound "+str(len(page_dict))+" questions!")
 
+    game = Trivia(page_dict)
+
     i = 1
-    for q in page_dict:
+    while not game.IsDone():
         print("\n\nQuestion "+str(i)+"!")
-        AskQuestion(q)
+        game.NextQuestion()
         raw_input("press Enter to continue!")
         i+=1
+
     return
 
 Setup()

@@ -59,29 +59,3 @@ class String_Formatting_Object:
 
 # Greek alphabet:
 # https://www.rapidtables.com/math/symbols/greek_alphabet.html
-
-"""
-def PlaceAcute(s):
-    cuts =[]
-    for i in range(len(s)): #find prefix
-        if (s.startswith("acute;", i)): cuts.append(i)
-    if len(cuts) == 0: return s
-    out_string = ""
-    lower_cut = 0
-    for i in cuts: #replace text
-        out_string += s[lower_cut:i-2] + s[i-1:i] + u"´"
-        lower_cut = i + 6
-    return out_string
-
-
-def FormatString(s):
-    replace = {"&quot;":'"', "&#039":"'", "&shy;":"-",
-        "&aring;":u"å", "&auml;":u"ä", "&ouml;":u"ö", "&amp;":u"&",
-        u"';":"'", "&rdquo;":u'”', "&ldquo;":u'“', "&rsquo;":u"’", "&hellip;":u"..."}
-
-    f_string = PlaceAcute(s)
-
-    for k, v in replace.items():
-        f_string = f_string.replace(k, v)
-    return f_string
-"""

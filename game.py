@@ -5,52 +5,88 @@ from format import *
 from opentdb import *
 from vutils import *
 
-def PrintMultipleChoicesRandomly(ct, it):
-    cc = it
-    cc.append(ct)
-    random.shuffle(cc)
-    cs = ""
-    i=1
-    for c in cc:
-        cs += str(i) + ": " + String_Formatting_Object.CreateFormattedString(c) + " "
-        i+=1
-    print(cs)
-    return (cc.index(ct)+1)
+class Trivia:
 
-def PrintBooleanQuestion(q):
-    print("1: True 2: False")
-    if (q["correct_answer"] == "True"): return 1
-    else: return 2
+    def __init__(self, questions):
+        self.qdict = questions
+        self.current_question = False
+        self.current_question_number = 0
+        self.done = False
+        self.num_questions = len(questions)
 
-def PrintQuestionProperties(q):
-    print("Category: "+q["category"] +" Type: "+ types[str(q["type"])] +" Difficulty: "+ q["difficulty"])
+    def __InitCurrentQuestion(self):
+        self.current_question = self.qdict[self.current_question_number]
 
-def PrintQuestion(q):
-    print("\n" + String_Formatting_Object.CreateFormattedString(q["question"]) + "\n")
+    def __ClearCurrentQuestion(self):
+        self.right_answer = None
+        self.current_question = None
 
-def PrintQuestionChoicesAndReturnCorrectAnswer(q):
-    if (q["type"] == "multiple"): ca = PrintMultipleChoicesRandomly(q["correct_answer"], q["incorrect_answers"])
-    else: ca = PrintBooleanQuestion(q)
-    return ca
+    def __PrintQuestion(self):
+        print("\n" + String_Formatting_Object.CreateFormattedString(self.current_question["question"]) + "\n")
 
-def ValidateAnswer(q, ca, a):
-    if a == ca:
-        print("Correct!")
-        return True
-    else:
-        print("Incorrect! Correct answer is '" + String_Formatting_Object.CreateFormattedString(q["correct_answer"]) + "'")
+    def __PrintQuestionProperties(self):
+        print("Category: "+self.current_question["category"] +" Type: "+ types[str(self.current_question["type"])] +" Difficulty: "+ self.current_question["difficulty"])
+
+    def __PrintBooleanChoices(self):
+        print("1: True 2: False")
+        if (self.current_question["correct_answer"] == "True"): self.right_answer = 1
+        else: self.right_answer = 2
+
+    def __PrintMultipleChoicesRandomly(self):
+        Choices = self.current_question["incorrect_answers"]
+        Choices.append(self.current_question["correct_answer"])
+        random.shuffle(Choices)
+        cs = ""
+        i=1
+        for c in Choices:
+            cs += str(i) + ": " + String_Formatting_Object.CreateFormattedString(c) + " "
+            i+=1
+        print(cs)
+        self.right_answer = (Choices.index(self.current_question["correct_answer"])+1)
+
+    def __PrintQuestionChoices(self):
+        if self.current_question["type"] == "multiple" : self.__PrintMultipleChoicesRandomly()
+        else: self.__PrintBooleanChoices()
+
+    def __ValidateAnswer(self, answer):
+        if answer == self.right_answer:
+            print("Correct!")
+            return True
+        else:
+            print("Incorrect! Correct answer is '" + String_Formatting_Object.CreateFormattedString(self.current_question["correct_answer"]) + "'")
+            return False
+
+    def __PrintCurrentQuestion(self):
+        self.__PrintQuestionProperties()
+        self.__PrintQuestion()
+        self.__PrintQuestionChoices()
+
+    def __PromptAndValidateAnswer(self):
+        answer = int(raw_input("Enter a number: "))
+        result = self.__ValidateAnswer(answer)
+        self.__ClearCurrentQuestion()
+        return result
+
+    def __AskQuestion(self):
+        self.__InitCurrentQuestion()
+        self.__PrintCurrentQuestion()
+        return self.__PromptAndValidateAnswer()
+
+    def NextQuestion(self):
+        if self.done: return None
+        result = self.__AskQuestion()
+        self.current_question_number += 1
+        return result
+
+    def IsDone(self):
+        if self.done: return True
+        if self.current_question_number >= self.num_questions:
+            self.done = True
+            return True
         return False
 
-def AskQuestion(q):
-    PrintQuestionProperties(q)
-    PrintQuestion(q)
-    ca = PrintQuestionChoicesAndReturnCorrectAnswer(q)
-    a = int(input("Enter a number: "))
-    return ValidateAnswer(q, ca, a)
-
-def PromptChoice(dict, start="", si=1, end=""):
-    for k, v in dict.items():
-        start+= str(si) + ": " +str(v)+" "
-        si+=1
-    print(start)
-    return int(raw_input(end))
+    def AskQuestion(self, number):
+        if number < 0 or number >= self.num_questions: return None
+        self.current_question = self.qdict[number]
+        self.__PrintCurrentQuestion()
+        return self.__PromptAndValidateAnswer()
