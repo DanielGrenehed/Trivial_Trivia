@@ -1,10 +1,8 @@
-import sys
+
+from networking import *
 import json
 
-if sys.version_info[0] == 3:
-    from urllib.request import urlopen
-else:
-    from urllib2 import urlopen
+
 
 #trivia_db_url = "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"
 
@@ -24,7 +22,7 @@ def CreateURL(an, cg, df, tp):
 
 #loads page and converts to dictionary
 def GetPageAsDictionary(url):
-    page = urlopen(url).read()
+    page = Web_Util.LoadPage(url)
     return json.loads(page)
 
 #Loads and validates page for results and returns a dictionary of questions
