@@ -23,13 +23,14 @@ def Setup():
 
     game = Trivia(page_dict)
 
+    score = 0
     i = 1
     while not game.IsDone():
         print("\n\nQuestion "+str(i)+"!")
-        game.NextQuestion()
+        if game.NextQuestion() : score += 1
         raw_input("press Enter to continue!")
         i+=1
-
+    print("Score: "+str(score)+"/"+str(i-1))
     return
 
 Setup()
