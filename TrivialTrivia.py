@@ -12,10 +12,11 @@ def PromptChoice(dict, start="", si=1, end=""):
 
 def Setup():
     amnt = int(input("How many questions?(max 50) "))
-    cat = PromptChoice(categories , "1: Any ", 2, "Choose catgory: ")+7
-    tp= PromptChoice(typen_n, "", 1, "Choose type: ")-1
-    df = PromptChoice(difficulties, "", 1, "Choose difficulty: ") -1
-    page_dict = FindBestRequest(amnt, cat, df, tp)
+    cat = PromptChoice(OpenTDB.GetCategories() , "1: Any ", 2, "Choose catgory: ") + 7
+    tp = PromptChoice(OpenTDB.GetTypes(), "", 1, "Choose type: ") - 1
+    df = PromptChoice(OpenTDB.GetDifficulties(), "", 1, "Choose difficulty: ") - 1
+    db = OpenTDB()
+    page_dict = db.GetRequest(amnt, cat, df, tp)
     if page_dict == False:
         print("Could not find any questions of that type!")
         return

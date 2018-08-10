@@ -14,6 +14,13 @@ class Trivia:
         self.done = False
         self.num_questions = len(questions)
 
+    def IsDone(self):
+        if self.done: return True
+        if self.current_question_number >= self.num_questions:
+            self.done = True
+            return True
+        return False
+
     def __InitCurrentQuestion(self):
         self.current_question = self.qdict[self.current_question_number]
 
@@ -25,7 +32,8 @@ class Trivia:
         print("\n" + String_Formatting_Object.CreateFormattedString(self.current_question["question"]) + "\n")
 
     def __PrintQuestionProperties(self):
-        print("Category: "+self.current_question["category"] +" Type: "+ types[str(self.current_question["type"])] +" Difficulty: "+ self.current_question["difficulty"])
+        print("Category: "+self.current_question["category"] +" Type: " +
+            OpenTDB.Types()[str(self.current_question["type"])] +" Difficulty: " + self.current_question["difficulty"])
 
     def __PrintBooleanChoices(self):
         print("1: True 2: False")
@@ -53,7 +61,8 @@ class Trivia:
             print("Correct!")
             return True
         else:
-            print("Incorrect! Correct answer is '" + String_Formatting_Object.CreateFormattedString(self.current_question["correct_answer"]) + "'")
+            print("Incorrect! Correct answer is '" +
+                String_Formatting_Object.CreateFormattedString(self.current_question["correct_answer"]) + "'")
             return False
 
     def __PrintCurrentQuestion(self):
@@ -73,17 +82,10 @@ class Trivia:
         return self.__PromptAndValidateAnswer()
 
     def NextQuestion(self):
-        if self.done: return None
+        if self.IsDone(): return None
         result = self.__AskQuestion()
         self.current_question_number += 1
         return result
-
-    def IsDone(self):
-        if self.done: return True
-        if self.current_question_number >= self.num_questions:
-            self.done = True
-            return True
-        return False
 
     def AskQuestion(self, number):
         if number < 0 or number >= self.num_questions: return None
