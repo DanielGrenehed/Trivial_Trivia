@@ -1,5 +1,5 @@
 
-from networking import *
+from Utils.networking import *
 import json
 
 #trivia_db_url = "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple"

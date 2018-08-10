@@ -1,9 +1,10 @@
 # -*- coding: UTF-8 -*-
 
 import random
-from format import *
+from Utils.format import *
+from Utils.vutils import *
 from opentdb import *
-from vutils import *
+
 
 class Trivia:
 
