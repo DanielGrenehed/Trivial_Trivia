@@ -11,15 +11,14 @@ else:
 # setup tkinter thread
 
 
-class tkinter_io(io_interface):
+class Tkinter_IO(io_interface):
 
     """docstring for tkinter_io."""
-    def __init__(self, arg):
-        super(tkinter_io, self).__init__()
-        self.arg = arg
+    def __init__(self):
+        super().__init__()
         self.window  = tk.Tk()
         self.content = {}
-        subprocess.(self.window.mainloop()) # into sepereate thread
+        subprocess.self.window.mainloop() # into sepereate thread
 
     def SetCloseCallback(self, callback):
         self.window.protocol("WM_DELETE_WINDOW", callback)
@@ -35,15 +34,15 @@ class tkinter_io(io_interface):
         self.content[k].pack()
 
     def UpdateWindow(self):
-        super(tkinter_io, self).UpdateWindow()
+        super(Tkinter_IO).Update_Window()
         for k, v in self.widgets.items():
             self.__CreateWidget(k, v)
 
     def ClearWindow(self):
-        super(tkinter_io, self).ClearWindow()
+        super(Tkinter_IO).ClearWindow()
         for k, v in self.content.items(): # delete widgets
             v.destroy()
 
     def SetVisible(self, visible=True):
-        super(tkinter_io, self).SetVisible(visible)
+        super(Tkinter_IO).SetVisible(visible)
         # set window visible
